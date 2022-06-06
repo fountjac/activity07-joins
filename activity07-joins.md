@@ -290,6 +290,28 @@ questions, contact your instructor. Otherwise feel free to continue on.
 
 Determine if La Quinta has any locations that are outside of the US.
 
+``` r
+filter(laquinta, !state %in% c(states$abbreviation))
+```
+
+    ## # A tibble: 14 x 6
+    ##    address                     city               state zip   longitude latitude
+    ##    <chr>                       <chr>              <chr> <chr>     <dbl>    <dbl>
+    ##  1 Carretera Panamericana Sur… "\nAguascalientes" AG    20345    -102.     21.8 
+    ##  2 Av. Tulum Mza. 14 S.M. 4 L… "\nCancun"         QR    77500     -86.8    21.2 
+    ##  3 Ejercito Nacional 8211      "Col\nPartido Igl… CH    32528    -106.     31.7 
+    ##  4 Blvd. Aeropuerto 4001       "Parque Industria… NL    66600    -100.     25.8 
+    ##  5 Carrera 38 # 26-13 Avenida… "\nMedellin Colom… ANT   0500…     -75.6     6.22
+    ##  6 AV. PINO SUAREZ No. 1001    "Col. Centro\nMon… NL    64000    -100.     25.7 
+    ##  7 Av. Fidel Velazquez #3000 … "\nMonterrey"      NL    64190    -100.     25.7 
+    ##  8 63 King Street East         "\nOshawa"         ON    L1H1…     -78.9    43.9 
+    ##  9 Calle Las Torres-1 Colonia… "\nPoza Rica"      VE    93210     -97.4    20.6 
+    ## 10 Blvd. Audi N. 3 Ciudad Mod… "\nSan Jose Chiap… PU    75010     -97.8    19.2 
+    ## 11 Ave. Zeta del Cochero No 4… "Col. ReservaTerr… PU    72810     -98.2    19.0 
+    ## 12 Av. Benito Juarez 1230 B (… "\nSan Luis Potos… SL    78399    -101.     22.1 
+    ## 13 Blvd. Fuerza Armadas        "contiguo Mall La… FM    11101     -87.2    14.1 
+    ## 14 8640 Alexandra Rd           "\nRichmond"       BC    V6X1…    -123.     49.2
+
 #### Isolating US locations
 
 For the rest of this activity, we will work with the data from the
@@ -298,21 +320,63 @@ we do not need to worry about updating this object, but you do need to
 do some work on the `laquinta` data. Create a new object called
 `laquinta_us` that only contains the locations inside the US.
 
+``` r
+laquinta_us <-filter(laquinta, state %in% c(states$abbreviation))
+```
+
 ### Fewest locations
 
 Let’s test some of our data summary skills.
 
 Which US state(s) has/ve the fewest Denny’s location?
 
-**Response**:
+``` r
+dennys %>% count(state)%>% arrange(n)
+```
+
+    ## # A tibble: 51 x 2
+    ##    state     n
+    ##    <chr> <int>
+    ##  1 DE        1
+    ##  2 DC        2
+    ##  3 VT        2
+    ##  4 AK        3
+    ##  5 IA        3
+    ##  6 NH        3
+    ##  7 SD        3
+    ##  8 WV        3
+    ##  9 LA        4
+    ## 10 MT        4
+    ## # … with 41 more rows
+
+**Response**:Deleware
 
 Which US state(s) has/ve the fewest La Quinta locations?
 
-**Response**:
+``` r
+laquinta_us %>% count(state)%>% arrange(n)
+```
+
+    ## # A tibble: 48 x 2
+    ##    state     n
+    ##    <chr> <int>
+    ##  1 ME        1
+    ##  2 AK        2
+    ##  3 NH        2
+    ##  4 RI        2
+    ##  5 SD        2
+    ##  6 VT        2
+    ##  7 WV        3
+    ##  8 WY        3
+    ##  9 IA        4
+    ## 10 MI        4
+    ## # … with 38 more rows
+
+**Response**:Maine
 
 Is this surprising to you? Why or why not?
 
-**Response**:
+**Response**: Not surprising they are both small states
 
 ### Locations per thousand square miles
 
@@ -386,8 +450,6 @@ pre_join_dennys <- dennys %>%
 pre_join_laquinta_us <- laquinta_us %>% 
   mutate(establishment = "La Quinta")
 ```
-
-    ## Error in mutate(., establishment = "La Quinta"): object 'laquinta_us' not found
 
 Now, stack these two `pre_join_*` tibbles on top of each other. After
 you have verified the stacking worked, assign the resulting object to

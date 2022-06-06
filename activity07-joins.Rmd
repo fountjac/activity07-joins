@@ -183,9 +183,9 @@ dennys %>%
 #### La Quinta
 
 Determine if La Quinta has any locations that are outside of the US.
-
-
-
+```{r notInUSA La Quinta}
+filter(laquinta, !state %in% c(states$abbreviation))
+```
 
 #### Isolating US locations
 
@@ -193,7 +193,9 @@ For the rest of this activity, we will work with the data from the United States
 All Denny's locations in our file are in the US so we do not need to worry about updating this object, but you do need to do some work on the `laquinta` data.
 Create a new object called `laquinta_us` that only contains the locations inside the US.
 
-
+```{r InUSA La Quinta}
+laquinta_us <-filter(laquinta, state %in% c(states$abbreviation))
+```
 
 ### Fewest locations
 
@@ -201,23 +203,28 @@ Let's test some of our data summary skills.
 
 Which US state(s) has/ve the fewest Denny's location?
 
+```{r fewest_dennys}
+dennys %>% count(state)%>% arrange(n)
+```
 
 
 
-**Response**:
+**Response**:Deleware
 
 
 Which US state(s) has/ve the fewest La Quinta locations?
+```{r fewest_laquinta_us}
+laquinta_us %>% count(state)%>% arrange(n)
+```
 
 
 
-
-**Response**:
+**Response**:Maine
 
 
 Is this surprising to you? Why or why not?
 
-**Response**:
+**Response**: Not surprising they are both small states
 
 
 ### Locations per thousand square miles
