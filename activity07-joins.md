@@ -163,14 +163,16 @@ the United States Look at the websites that the data come from (linked
 above). Are there any La Quinta’s locations outside of the US? What
 about Denny’s?
 
-**Response**:
+**Response**: Yes, there are La Quinta’s in Mexico No, Denny’s is only
+in USA
 
 If we wanted to do this using the datasets, would we need to ? Don’t
 worry about implementing this yet, you only need to brainstorm some
 ideas. Include at least one idea as your answer, but you are welcome to
 write down a few options too.
 
-**Response**:
+**Response**: If we are matching the two places together we can join
+just on matches
 
 ### Preparing to Join
 
@@ -182,11 +184,27 @@ state is *not in* `states$abbreviation`. Do not assign this to anything;
 we only want to see if we need to be aware of non-US cases. If there are
 any non-US locations, specify where these are.
 
-**Response**:
+``` r
+  filter(dennys, !state %in% c(states$abbreviation))
+```
+
+    ## # A tibble: 0 x 6
+    ## # … with 6 variables: address <chr>, city <chr>, state <chr>, zip <chr>,
+    ## #   longitude <dbl>, latitude <dbl>
+
+**Response**: There are no dennys outside of USA
 
 Now do this again, but using `anti_join`. To do so, take the Denny’s
 locations and anti-join this with the states dataset. Remember to
 specify your `by` columns.
+
+``` r
+dennys %>% anti_join(states, by = c("state" = "abbreviation"))
+```
+
+    ## # A tibble: 0 x 6
+    ## # … with 6 variables: address <chr>, city <chr>, state <chr>, zip <chr>,
+    ## #   longitude <dbl>, latitude <dbl>
 
 #### A Brief Aside
 
